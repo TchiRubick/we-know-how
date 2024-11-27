@@ -1,0 +1,62 @@
+services:
+  postgres:
+    container_name: postgres-acme
+    image: postgres:latest
+    environment:
+      - 'POSTGRES_USER=root'
+      - 'POSTGRES_PASSWORD=password'
+      - 'POSTGRES_DB=next-app'
+    ports:
+      - '5432:5432'
+    volumes:
+      - ./postgres_data:/var/lib/postgresql/data
+
+  minio:
+    container_name: minio-acme
+    image: minio/minio:latest
+    ports:
+      - '9000:9000'
+      - '9001:9001'
+    environment:
+      MINIO_ROOT_USER: minio
+      MINIO_ROOT_PASSWORD: password
+      MINIO_DEFAULT_BUCKETS: mybucket
+      MINIO_ACCESS_KEY: ${MINIO_ACCESS_KEY}
+      MINIO_SECRET_KEY: ${MINIO_SECRET_KEY}
+      MINIO_REGION: ${MINIO_REGION}
+    volumes:
+      - ./minio_data:/data
+    command: server /data --console-address ":9001"
+    networks:
+      - minio-network-acme
+
+  next-app:
+    container_name: next-app-acme
+    build:
+      context: ./next-app
+      dockerfile: dockerfile
+
+    env_file:
+      - .env
+    volumes:
+      - ./next-app:/app
+    restart: on-failure
+    stdin_open: true
+    tty: true
+    ports:
+      - 3000:3000
+    depends_on:
+      - postgres
+    networks:
+      - acme-network
+
+volumes:
+  postgres_data:
+  minio_data:
+
+
+networks:
+  acme-network:
+    external: true
+  minio-network-acme:
+    driver: bridge
