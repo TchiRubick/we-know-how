@@ -1,3 +1,3 @@
-sudo docker network create acme-network
+sudo docker network create external-network
 
 sudo docker-compose build

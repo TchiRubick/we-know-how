@@ -1,1 +1,1 @@
-sudo docker exec -it next-app-acme zsh
+sudo docker exec -it next-app zsh
