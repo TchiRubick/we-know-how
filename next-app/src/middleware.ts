@@ -1,12 +1,20 @@
+import { createI18nMiddleware } from 'next-international/middleware';
+import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 
-import type { NextRequest } from 'next/server';
+const I18nMiddleware = createI18nMiddleware({
+  locales: ['en'],
+  defaultLocale: 'en',
+  urlMappingStrategy: 'rewrite',
+})
 
 export const middleware = async (
-  request: NextRequest
+  req: NextRequest
 ): Promise<NextResponse> => {
-  if (request.method === 'GET') {
-    const response = NextResponse.next();
+  const request = I18nMiddleware(req);
+
+  if (req.method === 'GET') {
+    const response = request;
     const token = request.cookies.get('session')?.value ?? null;
 
     if (token !== null) {
@@ -47,7 +55,7 @@ export const middleware = async (
     });
   }
 
-  return NextResponse.next();
+  return request;
 };
 
 export const config = {

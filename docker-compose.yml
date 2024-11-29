@@ -10,6 +10,8 @@ services:
       - '5432:5432'
     volumes:
       - ./postgres_data:/var/lib/postgresql/data
+    networks:
+      - internal-network-acme
 
   minio:
     container_name: minio-acme
@@ -28,7 +30,7 @@ services:
       - ./minio_data:/data
     command: server /data --console-address ":9001"
     networks:
-      - minio-network-acme
+      - internal-network-acme
 
   next-app:
     container_name: next-app-acme
@@ -40,23 +42,31 @@ services:
       - .env
     volumes:
       - ./next-app:/app
+      - .env:/app/.env
     restart: on-failure
     stdin_open: true
     tty: true
+    environment:
+      SHELL: /bin/zsh
     ports:
       - 3000:3000
+      - 3001:3001
+      - 4983:4983
     depends_on:
       - postgres
     networks:
       - acme-network
+      - internal-network-acme
+    command: [ "/bin/zsh" ]
 
 volumes:
   postgres_data:
   minio_data:
+  pgadmin-data:
 
 
 networks:
   acme-network:
     external: true
-  minio-network-acme:
+  internal-network-acme:
     driver: bridge
