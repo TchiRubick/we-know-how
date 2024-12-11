@@ -2,10 +2,8 @@
 
 import { db } from "@/packages/db";
 import { SessionTable, UserTable } from "@/packages/db/schemas";
-import { sha256 } from "@oslojs/crypto/sha2";
 import {
-  encodeBase32LowerCaseNoPadding,
-  encodeHexLowerCase,
+  encodeBase32LowerCaseNoPadding
 } from "@oslojs/encoding";
 import { eq } from "drizzle-orm";
 import type { Session, SessionValidationResult } from "./type";
@@ -34,15 +32,11 @@ export class SessionManager {
   }
 
   static async validateToken(token: string): Promise<SessionValidationResult> {
-    const sessionId = encodeHexLowerCase(
-      sha256(new TextEncoder().encode(token)),
-    );
-
     const result = await db
       .select({ user: UserTable, session: SessionTable })
       .from(SessionTable)
       .innerJoin(UserTable, eq(SessionTable.userId, UserTable.id))
-      .where(eq(SessionTable.id, sessionId));
+      .where(eq(SessionTable.id, token));
 
     if (result.length < 1) {
       return { session: null, user: null };
