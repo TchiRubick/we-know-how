@@ -37,39 +37,44 @@ import {
 } from "@/app/_components/ui/sidebar";
 import { Skeleton } from "@/app/_components/ui/skeleton";
 import { useSession } from "@/app/_hooks/use-session";
-
-const menuItems = [
-  {
-    name: "Dashboard",
-    href: "/dashboard",
-    icon: LayoutDashboard,
-  },
-  {
-    name: "Features",
-    href: "/features",
-    icon: HomeIcon,
-  },
-];
-
-const userMenuItems = [
-  {
-    name: "Settings",
-    href: "/settings",
-    icon: Settings,
-  },
-  {
-    name: "Billing",
-    href: "/billing",
-    icon: CreditCard,
-  },
-  {
-    name: "Notifications",
-    href: "/notifications",
-    icon: Bell,
-  },
-];
+import { useScopedI18n } from "@/packages/locales/client";
 
 export const PrivateSidebar = ({ children }: { children: React.ReactNode }) => {
+  const t = useScopedI18n("common");
+
+  const tMenu = useScopedI18n("menu");
+
+  const menuItems = [
+    {
+      name: tMenu("dashboard"),
+      href: "/dashboard",
+      icon: LayoutDashboard,
+    },
+    {
+      name: tMenu("features"),
+      href: "/features",
+      icon: HomeIcon,
+    },
+  ];
+
+  const userMenuItems = [
+    {
+      name: tMenu("settings"),
+      href: "/settings",
+      icon: Settings,
+    },
+    {
+      name: tMenu("billing"),
+      href: "/billing",
+      icon: CreditCard,
+    },
+    {
+      name: tMenu("notifications"),
+      href: "/notifications",
+      icon: Bell,
+    },
+  ];
+
   const router = useRouter();
 
   const { data, isLoading, logout } = useSession();
@@ -136,7 +141,7 @@ export const PrivateSidebar = ({ children }: { children: React.ReactNode }) => {
                     className="cursor-pointer"
                   >
                     <LogOut className="mr-2 h-4 w-4" />
-                    <span>Log out</span>
+                    <span>{t("logout")}</span>
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>

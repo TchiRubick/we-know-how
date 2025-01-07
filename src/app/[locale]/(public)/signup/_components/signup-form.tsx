@@ -12,16 +12,18 @@ import {
 } from "@/app/_components/ui/card";
 import { Input } from "@/app/_components/ui/input";
 import { Label } from "@/app/_components/ui/label";
+import { useScopedI18n } from "@/packages/locales/client";
 import Link from "next/link";
 import { useRegisterForm } from "../_hooks/use-register-form";
 
 export const SignupForm = () => {
+  const t = useScopedI18n("signup");
   const { registerForm, signupMutation } = useRegisterForm();
 
   return (
     <Card className="w-full sm:w-1/4">
       <CardHeader>
-        <CardTitle>Signup</CardTitle>
+        <CardTitle>{t("title")}</CardTitle>
       </CardHeader>
       <CardContent>
         <form
@@ -35,7 +37,7 @@ export const SignupForm = () => {
             <registerForm.Field name="username">
               {(field) => (
                 <>
-                  <Label>Username</Label>
+                  <Label>{t("username")}</Label>
                   <Input
                     name={field.name}
                     value={field.state.value}
@@ -51,7 +53,7 @@ export const SignupForm = () => {
             <registerForm.Field name="email">
               {(field) => (
                 <>
-                  <Label>Email</Label>
+                  <Label>{t("email")}</Label>
                   <Input
                     name={field.name}
                     value={field.state.value}
@@ -67,7 +69,7 @@ export const SignupForm = () => {
             <registerForm.Field name="password">
               {(field) => (
                 <>
-                  <Label>Password</Label>
+                  <Label>{t("password")}</Label>
                   <Input
                     name={field.name}
                     value={field.state.value}
@@ -84,7 +86,7 @@ export const SignupForm = () => {
             <registerForm.Field name="phone">
               {(field) => (
                 <>
-                  <Label>Phone</Label>
+                  <Label>{t("phone")}</Label>
                   <Input
                     name={field.name}
                     value={field.state.value ?? ""}
@@ -100,7 +102,7 @@ export const SignupForm = () => {
             <registerForm.Field name="address">
               {(field) => (
                 <>
-                  <Label>Address</Label>
+                  <Label>{t("address")}</Label>
                   <Input
                     name={field.name}
                     value={field.state.value ?? ""}
@@ -116,7 +118,7 @@ export const SignupForm = () => {
             <registerForm.Field name="city">
               {(field) => (
                 <>
-                  <Label>City</Label>
+                  <Label>{t("city")}</Label>
                   <Input
                     name={field.name}
                     value={field.state.value ?? ""}
@@ -132,7 +134,7 @@ export const SignupForm = () => {
             <registerForm.Field name="country">
               {(field) => (
                 <>
-                  <Label>Country</Label>
+                  <Label>{t("country")}</Label>
                   <Input
                     name={field.name}
                     value={field.state.value ?? ""}
@@ -148,7 +150,7 @@ export const SignupForm = () => {
             <registerForm.Field name="birthYear">
               {(field) => (
                 <>
-                  <Label>Birth Year</Label>
+                  <Label>{t("birthYear")}</Label>
                   <Input
                     name={field.name}
                     value={field.state.value ?? ""}
@@ -184,12 +186,12 @@ export const SignupForm = () => {
       <CardFooter>
         <div className="flex items-center justify-center gap-2">
           <span className="text-sm">
-            Already have an account ?{" "}
+            {t("have-account")}{" "}
             <Link
               href="/signin"
               className="text-sm text-muted-foreground underline"
             >
-              Sign in
+              {t("signin")}
             </Link>
           </span>
         </div>

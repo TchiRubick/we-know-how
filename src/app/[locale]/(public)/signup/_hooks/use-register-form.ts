@@ -1,3 +1,4 @@
+import { useScopedI18n } from "@/packages/locales/client";
 import { signupAction } from "@/services/user/user.action";
 import type { RegisterInput } from "@/services/user/user.model";
 import { zRegister } from "@/services/user/user.model";
@@ -9,6 +10,8 @@ import { toast } from "sonner";
 
 export const useRegisterForm = () => {
   const router = useRouter();
+
+  const t = useScopedI18n("signup");
 
   const formOpts = formOptions<RegisterInput>({
     defaultValues: {
@@ -32,7 +35,7 @@ export const useRegisterForm = () => {
       return signupAction(value);
     },
     onSuccess: () => {
-      toast("Signed up successfully !");
+      toast(t("success"));
       router.push("/dashboard");
     },
     onError: (error) => {

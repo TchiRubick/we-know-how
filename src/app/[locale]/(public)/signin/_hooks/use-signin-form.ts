@@ -1,3 +1,4 @@
+import { useScopedI18n } from "@/packages/locales/client";
 import { signinAction } from "@/services/user/user.action";
 import type { SigninInput } from "@/services/user/user.model";
 import { formOptions, useForm } from "@tanstack/react-form";
@@ -7,6 +8,8 @@ import { toast } from "sonner";
 
 export const useSigninForm = () => {
   const router = useRouter();
+
+  const t = useScopedI18n("signin");
 
   const formOpts = formOptions<SigninInput>({
     defaultValues: {
@@ -20,7 +23,7 @@ export const useSigninForm = () => {
       return signinAction(value);
     },
     onSuccess: () => {
-      toast("Signed in successfully !");
+      toast(t("success"));
       router.push("/dashboard");
     },
     onError: (error) => {

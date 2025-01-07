@@ -4,6 +4,7 @@ import {
   deleteSessionTokenCookie,
   setSessionTokenCookie,
 } from "@/packages/cookies";
+import { getScopedI18n } from "@/packages/locales/server";
 import { hashPassword, verifyPassword } from "@/packages/password";
 import type { z } from "zod";
 import { getSession } from "../session/session.action";
@@ -12,6 +13,8 @@ import { zRegister, zSigninInput } from "./user.model";
 import { UserRepository } from "./user.repository";
 
 export const signinAction = async (input: z.infer<typeof zSigninInput>) => {
+  const t = await getScopedI18n("user-action");
+
   const validatedInput = zSigninInput.parse(input);
 
   const User = new UserRepository();
@@ -19,7 +22,7 @@ export const signinAction = async (input: z.infer<typeof zSigninInput>) => {
   const user = await User.getByIdentifier(validatedInput.identifier);
 
   if (!user) {
-    throw "Invalid credentials";
+    throw t("invalid-credentials");
   }
 
   await verifyPassword(user.password, validatedInput.password);
@@ -34,6 +37,8 @@ export const signinAction = async (input: z.infer<typeof zSigninInput>) => {
 };
 
 export const signupAction = async (input: z.infer<typeof zRegister>) => {
+  const t = await getScopedI18n("user-action");
+
   const validatedInput = zRegister.parse(input);
 
   const User = new UserRepository();
@@ -44,7 +49,7 @@ export const signupAction = async (input: z.infer<typeof zRegister>) => {
   );
 
   if (existingUser) {
-    throw "User already exists";
+    throw t("existing-user");
   }
 
   const passwordHash = await hashPassword(validatedInput.password);
@@ -55,7 +60,7 @@ export const signupAction = async (input: z.infer<typeof zRegister>) => {
   });
 
   if (!user) {
-    throw "Failed to create user";
+    throw t("failed-to-create-user");
   }
 
   const sessionRepository = new SessionRepository();
