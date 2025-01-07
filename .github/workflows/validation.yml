@@ -24,6 +24,9 @@ jobs:
       - name: Install pnpm
         run: npm install -g pnpm@9.14
 
+      - name: Verify pnpm installation
+        run: pnpm --version  # This will check if pnpm is installed correctly
+
       - name: Install dependencies
         run: pnpm install
 
