@@ -22,7 +22,8 @@
     "lint:fix": "next lint --fix",
     "typecheck": "tsc --pretty --noEmit",
     "format": "prettier --check --ignore-path .gitignore .",
-    "format:fix": "prettier --write --ignore-path .gitignore ."
+    "format:fix": "prettier --write --ignore-path .gitignore .",
+    "ui:add": "pnpm dlx shadcn@latest add"
   },
   "dependencies": {
     "@node-rs/argon2": "^2.0.2",
