@@ -19,13 +19,12 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '22'
-          cache: 'pnpm'
 
       - name: Install pnpm
         run: npm install -g pnpm@9.14
 
       - name: Verify pnpm installation
-        run: pnpm --version  # This will check if pnpm is installed correctly
+        run: pnpm --version
 
       - name: Install dependencies
         run: pnpm install
