@@ -38,3 +38,4 @@ next-env.d.ts
 
 /minio_data
 /postgres_data
+.env
