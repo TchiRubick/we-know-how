@@ -10,7 +10,7 @@ export const FieldError = <T, N extends DeepKeys<T>>({
 }) => {
   const t = useScopedI18n("common");
   return (
-    <div className="text-xs text-red-500">
+    <div className="text-xs text-red-500" data-testid="field-error">
       {field.state.meta.isTouched && field.state.meta.errors.length ? (
         <em>{field.state.meta.errors[0]}</em>
       ) : null}
